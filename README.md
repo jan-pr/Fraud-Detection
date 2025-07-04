@@ -31,8 +31,7 @@ The dataset used for training is referenced in:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name/flask
+git clone https://github.com/jan-pr/Fraud-Detection.git
 ```
 
 ---
