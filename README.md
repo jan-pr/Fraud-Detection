@@ -47,6 +47,7 @@ cd Fraud-Detection
 🔽 **Please download and extract the contents of the Drive folder into your local `flask/` directory** before running the app.
 
 ### 2. Run the Flask App
+Move to Fraud-Detection/flask
 
 ```bash
 python app.py
