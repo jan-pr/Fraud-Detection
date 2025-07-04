@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict - ML Predictor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            background-color: #0d1117;
+            color: #e6edf3;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background-color: #161b22;
+            border-bottom: 1px solid #30363d;
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 600;
+            color: #f0f6fc;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #e6edf3;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+
+        .nav-link:hover {
+            background-color: #21262d;
+        }
+
+        .nav-link.active {
+            background-color: #21262d;
+            color: #f0f6fc;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: 600;
+            color: #f0f6fc;
+            margin-bottom: 12px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: #7d8590;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Form Container */
+        .form-container {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+
+        .form-section {
+            margin-bottom: 32px;
+        }
+
+        .form-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #f0f6fc;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #f0f6fc;
+            margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #e6edf3;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #1f6feb;
+            box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.3);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 8px 12px;
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #e6edf3;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 100px;
+            transition: border-color 0.2s;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: #1f6feb;
+            box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.3);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 8px 12px;
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #e6edf3;
+            font-size: 14px;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: #1f6feb;
+            box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.3);
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #7d8590;
+            margin-top: 4px;
+        }
+
+        /* File Upload */
+        .file-upload {
+            border: 2px dashed #30363d;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            transition: border-color 0.2s;
+            cursor: pointer;
+        }
+
+        .file-upload:hover {
+            border-color: #1f6feb;
+        }
+
+        .file-upload-input {
+            display: none;
+        }
+
+        .file-upload-text {
+            color: #7d8590;
+            margin-bottom: 8px;
+        }
+
+        .file-upload-button {
+            background-color: #21262d;
+            color: #e6edf3;
+            border: 1px solid #30363d;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .file-upload-button:hover {
+            background-color: #30363d;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: space-between;
+            margin-top: 32px;
+        }
+
+        .submit-btn {
+            background-color: #238636;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: #2ea043;
+        }
+
+        .reset-btn {
+            background-color: transparent;
+            color: #e6edf3;
+            border: 1px solid #30363d;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .reset-btn:hover {
+            background-color: #21262d;
+            border-color: #8b949e;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 16px;
+            }
+
+            .main-container {
+                padding: 32px 16px;
+            }
+
+            .form-container {
+                padding: 24px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="home.html" class="logo">ML Predictor</a>
+            <nav class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="predict.html" class="nav-link active">Predict</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="page-header">
+            <h1 class="page-title">Online Payments Fraud Detection</h1>
+            <p class="page-subtitle">
+                Enter transaction details below to detect potential fraudulent activity
+            </p>
+        </div>
+
+        <form class="form-container" action="/pred" method="post">
+            <div class="form-section">
+                <h2 class="section-title">
+                    🔍 Online Payments Fraud Detection
+                </h2>
+                <div class="form-group">
+                    <label class="form-label" for="step">Step</label>
+                    <input type="number" class="form-input" id="step" name="step" placeholder="step, represents a unit of time where 1 step equals 1 hour" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="type">Type</label>
+                    <select class="form-select" id="type" name="type" required>
+                        <option value="">Type of online transaction</option>
+                        <option value="PAYMENT">PAYMENT</option>
+                        <option value="TRANSFER">TRANSFER</option>
+                        <option value="CASH_OUT">CASH_OUT</option>
+                        <option value="DEBIT">DEBIT</option>
+                        <option value="CASH_IN">CASH_IN</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="amount">Amount</label>
+                    <input type="number" class="form-input" id="amount" name="amount" step="0.01" placeholder="amount of the transaction" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="nameOrig">NameOrig</label>
+                    <input type="text" class="form-input" id="nameOrig" name="nameOrig" placeholder="customer who started the transaction" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="oldbalanceOrg">OldbalanceOrg</label>
+                    <input type="number" class="form-input" id="oldbalanceOrg" name="oldbalanceOrg" step="0.01" placeholder="balance before the transaction" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="newbalanceOrig">NewbalanceOrig</label>
+                    <input type="number" class="form-input" id="newbalanceOrig" name="newbalanceOrig" step="0.01" placeholder="balance after the transaction" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="nameDest">NameDest</label>
+                    <input type="text" class="form-input" id="nameDest" name="nameDest" placeholder="recipient ID of the transaction" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="oldbalanceDest">OldbalanceDest</label>
+                    <input type="number" class="form-input" id="oldbalanceDest" name="oldbalanceDest" step="0.01" placeholder="initial balance of recipient before the transaction" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="newbalanceDest">NewbalanceDest</label>
+                    <input type="number" class="form-input" id="newbalanceDest" name="newbalanceDest" step="0.01" placeholder="the new balance of recipient after the transaction" required>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2 class="section-title">
+                    💬 Additional Information
+                </h2>
+                <div class="form-group">
+                    <label class="form-label" for="notes">Comments or Special Instructions</label>
+                    <textarea class="form-textarea" id="notes" name="notes" placeholder="Enter any additional information or special requirements for fraud detection..."></textarea>
+                    <div class="help-text">Optional: Provide context or specific requirements for better fraud detection accuracy</div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button type="button" class="reset-btn" onclick="document.querySelector('form').reset()">Reset Form</button>
+                <button type="submit" class="submit-btn">Detect Fraud</button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        // File upload handling
+        document.getElementById('dataset').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name;
+            if (fileName) {
+                document.querySelector('.file-upload-text').textContent = `Selected: ${fileName}`;
+            }
+        });
+
+        // Form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const requiredFields = ['step', 'type', 'amount', 'nameOrig', 'oldbalanceOrg', 'newbalanceOrig', 'nameDest', 'oldbalanceDest', 'newbalanceDest'];
+            let missingFields = [];
+            
+            requiredFields.forEach(field => {
+                const input = document.getElementById(field);
+                if (!input.value.trim()) {
+                    missingFields.push(field);
+                }
+            });
+            
+            if (missingFields.length > 0) {
+                e.preventDefault();
+                alert('Please fill in all required fields: ' + missingFields.join(', '));
+                return;
+            }
+        });
+    </script>
+</body>
+</html>

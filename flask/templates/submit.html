@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Detection - ML Security</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            background-color: #0d1117;
+            color: #e6edf3;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background-color: #161b22;
+            border-bottom: 1px solid #30363d;
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: #f0f6fc;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background-color: #21262d;
+            color: #e6edf3;
+            border: 1px solid #30363d;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background-color: #30363d;
+            border-color: #8b949e;
+        }
+
+        .nav-btn.primary {
+            background-color: #238636;
+            border-color: #238636;
+            color: white;
+        }
+
+        .nav-btn.primary:hover {
+            background-color: #2ea043;
+            border-color: #2ea043;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: 700;
+            color: #f0f6fc;
+            margin-bottom: 16px;
+            letter-spacing: -0.025em;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: #7d8590;
+            margin-bottom: 32px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Detection Result Card */
+        .detection-card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .detection-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #da3633, #f85149);
+        }
+
+        .detection-card.safe::before {
+            background: linear-gradient(90deg, #238636, #2ea043);
+        }
+
+        .detection-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .detection-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background-color: #da3633;
+            color: white;
+        }
+
+        .status-icon.safe {
+            background-color: #238636;
+        }
+
+        .status-text {
+            font-size: 24px;
+            font-weight: 600;
+            color: #f0f6fc;
+        }
+
+        .confidence-badge {
+            background-color: #21262d;
+            border: 1px solid #30363d;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #e6edf3;
+        }
+
+        .prediction-message {
+            font-size: 16px;
+            color: #7d8590;
+            margin-bottom: 24px;
+            padding: 16px;
+            background-color: #0d1117;
+            border-radius: 6px;
+            border-left: 3px solid #da3633;
+        }
+
+        .prediction-message.safe {
+            border-left-color: #238636;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 600;
+            color: #f0f6fc;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #7d8590;
+        }
+
+        /* Security Features */
+        .security-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .feature-card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 24px;
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            background-color: #21262d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+
+        .feature-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #f0f6fc;
+            margin-bottom: 8px;
+        }
+
+        .feature-description {
+            font-size: 14px;
+            color: #7d8590;
+            line-height: 1.5;
+        }
+
+        /* Action Buttons */
+        .action-section {
+            text-align: center;
+            margin-top: 32px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: #238636;
+            color: white;
+            border: 1px solid #238636;
+        }
+
+        .btn-primary:hover {
+            background-color: #2ea043;
+            border-color: #2ea043;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #e6edf3;
+            border: 1px solid #30363d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #21262d;
+            border-color: #8b949e;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 64px;
+            padding-top: 32px;
+            border-top: 1px solid #30363d;
+            text-align: center;
+        }
+
+        .footer-text {
+            color: #7d8590;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 16px;
+            }
+
+            .main-container {
+                padding: 32px 16px;
+            }
+
+            .hero-title {
+                font-size: 36px;
+            }
+
+            .hero-subtitle {
+                font-size: 18px;
+            }
+
+            .detection-card {
+                padding: 24px;
+            }
+
+            .detection-header {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .detection-card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .stat-card {
+            animation: fadeInUp 0.6s ease-out;
+            animation-delay: 0.2s;
+            animation-fill-mode: both;
+        }
+
+        .feature-card {
+            animation: fadeInUp 0.6s ease-out;
+            animation-delay: 0.4s;
+            animation-fill-mode: both;
+        }
+    </style>
+</head>
+<body>
+  <header class="header">
+    <div class="nav-container">
+      <a href="/" class="logo">🔒 ML Security</a>
+      <nav class="nav-links">
+        <a href="/home" class="nav-btn">Home</a>
+        <a href="/predict" class="nav-btn primary">Predict</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <div class="hero-section">
+      <h1 class="hero-title">Online Payments Fraud Detection</h1>
+      <p class="hero-subtitle">Advanced machine learning algorithms to protect your transactions</p>
+    </div>
+
+    <div class="detection-card {% if prediction_text == 'Payment Secure' %}safe{% endif %}">
+      <div class="detection-header">
+        <div class="detection-status">
+          <div class="status-icon {% if prediction_text == 'Payment Secure' %}safe{% endif %}">
+            {% if prediction_text == 'Payment Secure' %}✅{% else %}⚠️{% endif %}
+          </div>
+          <div class="status-text">{{ prediction_text }}</div>
+        </div>
+        <div class="confidence-badge">Confidence: {{ confidence }}%</div>
+      </div>
+
+      <div class="prediction-message {% if prediction_text == 'Payment Secure' %}safe{% endif %}">
+        The predicted fraud status for this online payment is <strong>{{ prediction_text }}</strong>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value">{{ accuracy }}%</div>
+        <div class="stat-label">Detection Accuracy</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{ processing_time }}s</div>
+        <div class="stat-label">Processing Time</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{ data_points }}</div>
+        <div class="stat-label">Data Points</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{ algorithm_name }}</div>
+        <div class="stat-label">Algorithm</div>
+      </div>
+    </div>
+
+    <div class="security-features">
+      <!-- keep your three feature-cards here, unchanged -->
+    </div>
+
+    <div class="action-section">
+      <div class="action-buttons">
+        <a href="/predict" class="btn btn-primary">
+          🔄 Run New Detection
+        </a>
+        <a href="#" class="btn btn-secondary" onclick="alert('Detailed analysis report would be shown here.')">
+          📋 View Details
+        </a>
+        <a href="#" class="btn btn-secondary">
+          📊 Analytics Dashboard
+        </a>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p class="footer-text">
+        Powered by advanced machine learning • Built with security in mind
+      </p>
+    </div>
+  </main>
+</body>
+</html>

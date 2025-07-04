@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - ML Predictor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            background-color: #0d1117;
+            color: #e6edf3;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background-color: #161b22;
+            border-bottom: 1px solid #30363d;
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 600;
+            color: #f0f6fc;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #e6edf3;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+
+        .nav-link:hover {
+            background-color: #21262d;
+        }
+
+        .predict-btn {
+            background-color: #238636;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.2s;
+        }
+
+        .predict-btn:hover {
+            background-color: #2ea043;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: 600;
+            color: #f0f6fc;
+            margin-bottom: 16px;
+            line-height: 1.25;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            color: #7d8590;
+            margin-bottom: 32px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-description {
+            font-size: 16px;
+            color: #e6edf3;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 32px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 32px;
+        }
+
+        .primary-btn {
+            background-color: #238636;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.2s;
+        }
+
+        .primary-btn:hover {
+            background-color: #2ea043;
+        }
+
+        .secondary-btn {
+            background-color: transparent;
+            color: #e6edf3;
+            border: 1px solid #30363d;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+
+        .secondary-btn:hover {
+            background-color: #21262d;
+            border-color: #8b949e;
+        }
+
+        /* Features Section */
+        .features-section {
+            margin-top: 80px;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: #f0f6fc;
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 48px;
+        }
+
+        .feature-card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 32px;
+            text-align: left;
+            transition: border-color 0.2s;
+        }
+
+        .feature-card:hover {
+            border-color: #8b949e;
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background-color: #238636;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 24px;
+        }
+
+        .feature-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #f0f6fc;
+            margin-bottom: 12px;
+        }
+
+        .feature-description {
+            color: #7d8590;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #161b22;
+            border-top: 1px solid #30363d;
+            margin-top: 80px;
+            padding: 32px 0;
+            text-align: center;
+            color: #7d8590;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 16px;
+            }
+
+            .main-container {
+                padding: 32px 16px;
+            }
+
+            .hero-title {
+                font-size: 36px;
+            }
+
+            .hero-subtitle {
+                font-size: 20px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="home.html" class="logo">ML Predictor</a>
+            <nav class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="/predict" class="predict-btn">Predict</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="hero-section">
+            <h1 class="hero-title">Machine Learning Made Simple</h1>
+            <p class="hero-subtitle">Powerful predictions at your fingertips</p>
+            <p class="hero-description">
+                Welcome to our advanced machine learning platform. Make accurate predictions with our 
+                state-of-the-art algorithms. Simply input your data and get instant results powered by 
+                cutting-edge AI technology.
+            </p>
+            <div class="cta-buttons">
+                <a href="/predict" class="primary-btn">Start Predicting</a>
+                <a href="#features" class="secondary-btn">Learn More</a>
+            </div>
+        </section>
+
+        <section id="features" class="features-section">
+            <h2 class="section-title">Why Choose Our Platform?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3 class="feature-title">Advanced AI Models</h3>
+                    <p class="feature-description">
+                        Leverage state-of-the-art machine learning algorithms trained on vast datasets 
+                        to ensure accurate and reliable predictions for your use case.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Lightning Fast</h3>
+                    <p class="feature-description">
+                        Get instant results with our optimized prediction engine. No waiting around - 
+                        submit your data and receive predictions in real-time.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Secure & Private</h3>
+                    <p class="feature-description">
+                        Your data privacy is our priority. All predictions are processed securely 
+                        with enterprise-grade encryption and privacy protection.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 ML Predictor. Built with precision and care.</p>
+    </footer>
+</body>
+</html>
