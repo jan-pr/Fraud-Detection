@@ -7,7 +7,7 @@ This repository contains a Flask web application for serving predictions using a
 ## 📁 Project Structure
 
 ```
-your-repo/
+Fraud-Detection/
 ├── data/
 │   └── online_fraud_detection.txt           # Link to the training dataset
 ├── flask/
@@ -71,18 +71,6 @@ python -m venv venv
 venv\Scripts\activate     # on Windows
 source venv/bin/activate  # on Linux/macOS
 
-# Install dependencies
-pip install -r requirements.txt
-```
-
-If you don’t have a `requirements.txt` file yet, you can create one with:
-
-```bash
-pip freeze > requirements.txt
-```
-
----
-
 ### 5. Run the Flask App
 
 ```bash
@@ -101,7 +89,3 @@ The app should be accessible at:
 - You will get a warning if you near GitHub's free LFS limits. GitHub **will not charge** you unless you manually purchase more space.
 
 ---
-
-## 📜 License
-
-This project is licensed under the [MIT License](LICENSE).
