@@ -32,6 +32,7 @@ The dataset used for training is referenced in:
 
 ```bash
 git clone https://github.com/jan-pr/Fraud-Detection.git
+cd Fraud-Detection
 ```
 
 ---
