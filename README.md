@@ -1,5 +1,5 @@
 
-# 🧠 ML Model Deployment with Flask + Git LFS
+# 🧠 ML Model Deployment with Flask 
 
 This repository contains a Flask web application for serving predictions using a trained machine learning model. The model, encoders, and preprocessed data are stored in a compressed archive (`training.7z`) and tracked using **Git LFS** due to GitHub's file size limitations.
 
