@@ -35,6 +35,16 @@ The dataset used for training is referenced in:
 git clone https://github.com/jan-pr/Fraud-Detection.git
 cd Fraud-Detection
 ```
+## 📦 Model & Training Files 
+
+- Inside the `flask/` folder, you'll find a file named [`model.txt`](flask/model.txt)
+- This file contains a **Google Drive link** to a folder named `training/`
+- The `training/` folder includes:
+  - Trained ML model
+  - Encoders and preprocessing artifacts
+  - Input data files
+
+🔽 **Please download and extract the contents of the Drive folder into your local `flask/` directory** before running the app.
 
 ### 2. Run the Flask App
 
@@ -47,6 +57,7 @@ The app should be accessible at:
 
 ---
 
+
 ## 💡 Notes
 
 - The app uses the `templates/` folder to serve HTML pages (Jinja2 templates).
@@ -55,15 +66,3 @@ The app should be accessible at:
 
 ---
 
-## 📦 Model & Training Files (Alternative Download)
-
-Due to Git LFS issues or quota limits, you can alternatively download the required model, encoders, and preprocessed data manually.
-
-- Inside the `flask/` folder, you'll find a file named [`model.txt`](flask/model.txt)
-- This file contains a **Google Drive link** to a folder named `training/`
-- The `training/` folder includes:
-  - Trained ML model
-  - Encoders and preprocessing artifacts
-  - Input data files
-
-🔽 **Please download and extract the contents of the Drive folder into your local `flask/training/` directory** before running the app.
