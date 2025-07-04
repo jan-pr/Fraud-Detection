@@ -1,3 +1,4 @@
+
 # 🧠 ML Model Deployment with Flask + Git LFS
 
 This repository contains a Flask web application for serving predictions using a trained machine learning model. The model, encoders, and preprocessed data are stored in a compressed archive (`training.7z`) and tracked using **Git LFS** due to GitHub's file size limitations.
@@ -12,7 +13,7 @@ Fraud-Detection/
 │   └── online_fraud_detection.txt           # Link to the training dataset
 ├── flask/
 │   ├── app.py                     # Main Flask application
-│   ├── training.7z                # Contains model, encoders, and training data
+│   ├── model.txt                  # Contains drive link with model, encoders, and training data in training folder
 │   ├── templates/                 # HTML templates for Flask
 │   │   └── *.html
 ```
@@ -32,46 +33,10 @@ The dataset used for training is referenced in:
 
 ```bash
 git clone https://github.com/jan-pr/Fraud-Detection.git
-cd Fraud-Detection/flask
+cd Fraud-Detection
 ```
 
----
-
-### 2. Install Git LFS (Only Once)
-
-```bash
-git lfs install
-git lfs pull
-```
-
-> If Git LFS isn't installed, get it from https://git-lfs.com/
-
----
-
-### 3. Extract the Model Archive
-
-```bash
-7z x training.7z
-```
-
-This will extract:
-- `etc_model.pkl` – Trained ML model
-- `nameOrig_encoder.pkl`, `nameDest_encoder.pkl` – Preprocessing encoders
-- `X_data.pkl`, `y_data.pkl` – Preprocessed training data
-
----
-
-### 4. Install Required Python Packages
-
-> *(Make sure you’re in the `flask/` directory)*
-
-```bash
-python -m venv venv
-# Activate environment
-venv\Scripts\activate     # on Windows
-source venv/bin/activate  # on Linux/macOS
-
-### 5. Run the Flask App
+### 2. Run the Flask App
 
 ```bash
 python app.py
@@ -89,3 +54,16 @@ The app should be accessible at:
 - You will get a warning if you near GitHub's free LFS limits. GitHub **will not charge** you unless you manually purchase more space.
 
 ---
+
+## 📦 Model & Training Files (Alternative Download)
+
+Due to Git LFS issues or quota limits, you can alternatively download the required model, encoders, and preprocessed data manually.
+
+- Inside the `flask/` folder, you'll find a file named [`model.txt`](flask/model.txt)
+- This file contains a **Google Drive link** to a folder named `training/`
+- The `training/` folder includes:
+  - Trained ML model
+  - Encoders and preprocessing artifacts
+  - Input data files
+
+🔽 **Please download and extract the contents of the Drive folder into your local `flask/training/` directory** before running the app.
